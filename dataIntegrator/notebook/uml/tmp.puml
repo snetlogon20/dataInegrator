@@ -1,0 +1,17 @@
+@startuml
+actor User
+
+User -> MyLinearRegression: perform_linear_regression(dataframe, xColumns, yColumn)
+MyLinearRegression -> statsmodels.api: sm.add_constant(X)
+MyLinearRegression -> statsmodels.api: sm.OLS(y, X).fit()
+MyLinearRegression -> statsmodels.api: model.params
+MyLinearRegression -> statsmodels.api: model.tvalues
+MyLinearRegression -> statsmodels.api: model.pvalues
+MyLinearRegression -> statsmodels.api: model.fvalue
+MyLinearRegression -> statsmodels.api: model.f_pvalue
+MyLinearRegression -> User: return model, summary_df, f_stat, f_p_value
+
+User -> FileUtility: generate_filename_by_timestamp(prefix)
+FileUtility -> datetime.datetime: datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+FileUtility -> User: return filename
+@enduml
